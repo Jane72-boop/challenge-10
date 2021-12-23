@@ -25,85 +25,116 @@ class Error {
         this.classErr.parentElement.appendChild(Error.createErrorElement(this.textErr))
     }
 
-    
+    remove() {
+        this.classErr.classList.remove('errorInput')
+        
+        console.log(this.classErr.nextElementSibling)
+        this.classErr.nextElementSibling.remove()
+    }
 
 }
 
 
 function validateInput() {
-    // validateFName()
-    // validateLName()
-    // validateEmail()
-    // validatePassword()
+    validateFName()
+    validateLName()
+    validateEmail()
+    validatePassword()
 
-   if(validateFName() || validateLName() || validateEmail() || validatePassword() ===false) { 
+    event.preventDefault()
+
+   if(false) { 
        event.preventDefault() 
-    } else {
+    } else if (validateFName() && validateLName() && validateEmail() && validatePassword() === true){
         location.reload()
     }
 }
 
 
 function validateFName() {
+    let errFirstN = new Error(firstName, "First Name cannot be empty");
+
     if (!firstName.value) { 
         if(firstName.classList != "errorInput"){
-            let errFirstN = new Error(firstName, "First Name cannot be empty");
             errFirstN.update()
         
             return false
         }
         return false
-    }
-    else { 
+    } else {
+        if(firstName.classList == "errorInput"){
+            errFirstN.remove()
+
+            return true 
+        }
+        
         return true 
     }
 }
 
 function validateLName() {
+    let errLastN = new Error(lastName, "Last Name cannot be empty");
+
     if (!lastName.value) { 
         if(lastName.classList != "errorInput") {
-            let errLastN = new Error(lastName, "Last Name cannot be empty");
+            
             errLastN.update()
             
             return false
         }
         return false
     
-    } else { 
+    } else {
+        if(lastName.classList == "errorInput"){
+            errLastN.remove()
+
+            return true
+        }
+        
         return true 
     }
 }
 
 function validateEmail() {
     let checkEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)
+    let errEmail = new Error(email, "Looks like this is not an email");
 
     if (!checkEmail) { 
-        if (email.classList != "errorInput") {
-            let errEmail = new Error(email, "Looks like this is not an email");
+        if (email.classList != "errorInput") {   
             errEmail.update()
             
             return false
         }
         return false
-    } else { 
+    } else {
+        if(errEmail.classList == "errorInput"){
+            errEmail.remove()
+
+            return true
+        }
+        
         return true 
     }
 }
 
 function validatePassword() {
     let checkPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(password.value)
+    let errPass = new Error(password, "Password cannot be empty");
 
     if (!checkPass) { 
         if(password.classList != "errorInput") {
-            let errPass = new Error(password, "Password cannot be empty");
             errPass.update()
             
             return false 
         }
         return false
-    } else { 
+    } else {
+        if(errPass.classList == "errorInput"){
+            errPass.remove()
+
+            return true
+        }
+        
         return true 
     }
 }
-
-//ADD REMOVE ERROR FEATURE
